@@ -1,12 +1,16 @@
 use std::io;
 
-fn fizzbuzz(n: i32) -> Vec<String> {
+static FIZZ: &'static str = "FIZZ";
+static BUZZ: &'static str = "BUZZ";
+static FIZZBUZZ: &'static str = "FIZZBUZZ";
+
+fn fizzbuzz(n: i32) {
     (1..=n)
         .map(|x| match x {
-            x if x % 15 == 0 => String::from("FizzBuzz"),
-            x if x % 3 == 0 => String::from("Fizz"),
-            x if x % 5 == 0 => String::from("Buzz"),
-            _ => x.to_string(),
+            x if x % 15 == 0 => println!("{}", FIZZBUZZ),
+            x if x % 3 == 0 => println!("{}", FIZZ),
+            x if x % 5 == 0 => println!("{}", BUZZ),
+            _ => println!("{:?}", x),
         })
         .collect()
 }
@@ -20,8 +24,10 @@ fn main() {
 
     let trimmed = input_text.trim();
     match trimmed.parse::<i32>() {
-        Ok(i) => println!("{:?}", fizzbuzz(i)),
+        Ok(i) => {
+            print!("\x1B[2J");
+            fizzbuzz(i)
+        }
         Err(..) => println!("this was not an integer: {}", trimmed),
     }
-
 }
